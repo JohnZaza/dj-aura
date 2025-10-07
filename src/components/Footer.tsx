@@ -3,9 +3,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import logoDark from "@/assets/logo-dark.png";
 
 const socialLinks = [
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+  { icon: Instagram, href: "https://www.instagram.com/ziaziaris_giannis/?hl=el", label: "Instagram" },
+  { icon: Facebook, href: "https://www.facebook.com/ziaziaris", label: "Facebook" },
+  // { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
 ];
 
 const Footer = () => {
@@ -49,13 +49,13 @@ const Footer = () => {
           <div>
             <h3 className="font-normal text-base mb-4">{t("footer.getInTouch")}</h3>
             <div className="space-y-3 mb-6">
-              <a href="mailto:contact@djziaziaris.com" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+              <a href="mailto:djziaziaris@gmail.com" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" />
-                <span className="text-sm font-light">contact@djziaziaris.com</span>
+                <span className="text-sm font-light">djziaziaris@gmail.com</span>
               </a>
-              <a href="tel:+1234567890" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+              <a href="tel:+306973643262" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                 <Phone className="w-4 h-4" />
-                <span className="text-sm font-light">+1 (234) 567-890</span>
+                <span className="text-sm font-light">+30 (697) 364-3262</span>
               </a>
             </div>
 
