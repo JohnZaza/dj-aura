@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Music, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoWhite from "@/assets/logo-white.png";
+import { useLanguage } from "@/contexts/LanguageContext";
+import logoDark from "@/assets/logo-dark.png";
 
 interface HeroProps {
   isMuted: boolean;
@@ -10,6 +11,7 @@ interface HeroProps {
 
 const Hero = ({ isMuted, onToggleMute }: HeroProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setIsVisible(true);
@@ -20,69 +22,62 @@ const Hero = ({ isMuted, onToggleMute }: HeroProps) => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary" />
-      
-      {/* Glow effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-glow-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-glow-pulse" style={{ animationDelay: "1.5s" }} />
-
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background to-secondary/30">
       {/* Content */}
       <div className={`relative z-10 container mx-auto px-6 text-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-        <div className="flex justify-center mb-8 animate-fade-in">
+        <div className="flex justify-center mb-12 animate-fade-in">
           <img 
-            src={logoWhite} 
+            src={logoDark} 
             alt="DJ John Ziaziaris" 
-            className="h-24 md:h-32 object-contain"
+            className="h-20 md:h-24 object-contain"
           />
         </div>
 
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-          Elevate Your
-          <span className="block text-primary mt-2">Experience</span>
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          {t("hero.tagline")}
+          <span className="block text-primary mt-2 font-medium">{t("hero.experience")}</span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-          Professional DJ services for weddings, private parties, baptisms, and every celebration that deserves the perfect soundtrack
+        <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto font-light animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+          {t("hero.description")}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
           <Button 
             size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(0,255,136,0.4)]"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base font-normal shadow-soft transition-all hover:shadow-lg"
             onClick={() => scrollToSection("contact")}
           >
-            Book Your Event
+            {t("hero.bookEvent")}
           </Button>
           
           <Button 
             size="lg"
             variant="outline"
-            className="border-primary/50 text-foreground hover:bg-primary/10 px-8 py-6 text-lg font-semibold transition-all hover:scale-105"
+            className="border-primary/30 text-foreground hover:bg-primary/5 px-8 py-6 text-base font-normal transition-all"
             onClick={() => scrollToSection("about")}
           >
-            Learn More
+            {t("hero.learnMore")}
           </Button>
         </div>
 
         {/* Music control */}
         <div className="mt-16 flex items-center justify-center gap-3 text-muted-foreground animate-fade-in" style={{ animationDelay: "0.8s" }}>
-          <Music className="w-5 h-5" />
+          <Music className="w-4 h-4" />
           <button
             onClick={onToggleMute}
-            className="flex items-center gap-2 hover:text-primary transition-colors"
+            className="flex items-center gap-2 hover:text-primary transition-colors text-sm font-light"
           >
-            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-            <span className="text-sm">{isMuted ? "Unmute Background Music" : "Mute Background Music"}</span>
+            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            <span>{isMuted ? t("hero.unmuteMusic") : t("hero.muteMusic")}</span>
           </button>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-primary/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-primary rounded-full mt-2 animate-pulse" />
+      {/* Minimal scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
+        <div className="w-5 h-8 border border-primary/40 rounded-full flex justify-center">
+          <div className="w-0.5 h-2 bg-primary rounded-full mt-2" />
         </div>
       </div>
     </section>

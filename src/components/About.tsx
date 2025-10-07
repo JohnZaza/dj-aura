@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import djPhoto from "@/assets/dj-photo.jpg";
 
 const About = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -23,47 +25,46 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 px-6 bg-gradient-to-b from-secondary to-background">
+    <section id="about" ref={sectionRef} className="py-24 px-6">
       <div className="container mx-auto max-w-6xl">
-        <div className={`grid md:grid-cols-2 gap-12 items-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
+        <div className={`grid md:grid-cols-2 gap-16 items-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           {/* Photo */}
-          <div className="relative group">
-            <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-2xl group-hover:bg-primary/30 transition-all duration-500" />
+          <div className="relative">
             <img
               src={djPhoto}
               alt="DJ John Ziaziaris"
-              className="relative rounded-2xl shadow-2xl w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              className="rounded-lg shadow-soft w-full h-auto object-cover"
             />
           </div>
 
           {/* Bio */}
           <div className="space-y-6">
-            <h2 className="text-4xl md:text-5xl font-bold">
-              About <span className="text-primary">Me</span>
+            <h2 className="text-4xl md:text-5xl font-light">
+              {t("about.title")} <span className="text-primary font-normal">{t("about.me")}</span>
             </h2>
             
-            <div className="w-20 h-1 bg-primary" />
+            <div className="w-16 h-px bg-primary" />
 
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              With years of experience in creating unforgettable moments, I specialize in reading the room and delivering the perfect soundtrack for your special occasions.
+            <p className="text-base text-muted-foreground leading-relaxed font-light">
+              {t("about.bio1")}
             </p>
 
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              From intimate baptisms to grand weddings and exclusive private parties, I bring professional-grade equipment, lighting, and special effects to transform your event into an extraordinary experience.
+            <p className="text-base text-muted-foreground leading-relaxed font-light">
+              {t("about.bio2")}
             </p>
 
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              My passion is crafting the perfect atmosphere through music, ensuring every moment resonates with your guests and creates memories that last a lifetime.
+            <p className="text-base text-muted-foreground leading-relaxed font-light">
+              {t("about.bio3")}
             </p>
 
-            <div className="pt-4 grid grid-cols-2 gap-6">
-              <div className="text-center p-4 bg-card rounded-lg border border-border">
-                <div className="text-3xl font-bold text-primary">500+</div>
-                <div className="text-sm text-muted-foreground mt-1">Events</div>
+            <div className="pt-6 grid grid-cols-2 gap-6">
+              <div className="text-center p-6 bg-secondary/30 rounded-lg">
+                <div className="text-3xl font-light text-primary">500+</div>
+                <div className="text-sm text-muted-foreground mt-1 font-light">{t("about.events")}</div>
               </div>
-              <div className="text-center p-4 bg-card rounded-lg border border-border">
-                <div className="text-3xl font-bold text-primary">100%</div>
-                <div className="text-sm text-muted-foreground mt-1">Satisfaction</div>
+              <div className="text-center p-6 bg-secondary/30 rounded-lg">
+                <div className="text-3xl font-light text-primary">100%</div>
+                <div className="text-sm text-muted-foreground mt-1 font-light">{t("about.satisfaction")}</div>
               </div>
             </div>
           </div>

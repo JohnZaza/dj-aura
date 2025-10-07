@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -18,6 +19,7 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -50,19 +52,18 @@ const Contact = () => {
     try {
       contactSchema.parse(formData);
       
-      // Simulate form submission
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
-        title: "Message sent!",
-        description: "Thanks for reaching out. I'll get back to you soon!",
+        title: t("contact.success.title"),
+        description: t("contact.success.description"),
       });
 
       setFormData({ name: "", email: "", phone: "", message: "" });
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast({
-          title: "Invalid form",
+          title: t("contact.error.title"),
           description: error.errors[0].message,
           variant: "destructive",
         });
@@ -73,15 +74,15 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 px-6 bg-gradient-to-b from-background to-secondary">
+    <section id="contact" ref={sectionRef} className="py-24 px-6">
       <div className="container mx-auto max-w-4xl">
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Let's Make Your Event <span className="text-primary">Unforgettable</span>
+          <h2 className="text-4xl md:text-5xl font-light mb-4">
+            {t("contact.title")} <span className="text-primary font-normal">{t("contact.unforgettable")}</span>
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-6" />
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get in touch to discuss your event and let's create the perfect musical experience together
+          <div className="w-16 h-px bg-primary mx-auto mb-6" />
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto font-light">
+            {t("contact.description")}
           </p>
         </div>
 
@@ -92,61 +93,61 @@ const Contact = () => {
         >
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium">
-                Name *
+              <label htmlFor="name" className="text-sm font-light">
+                {t("contact.name")} *
               </label>
               <Input
                 id="name"
                 type="text"
-                placeholder="Your name"
+                placeholder={t("contact.name")}
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="bg-card border-border focus:border-primary transition-colors"
+                className="bg-card border-border focus:border-primary transition-colors font-light"
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
-                Email *
+              <label htmlFor="email" className="text-sm font-light">
+                {t("contact.email")} *
               </label>
               <Input
                 id="email"
                 type="email"
-                placeholder="your.email@example.com"
+                placeholder={t("contact.email")}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="bg-card border-border focus:border-primary transition-colors"
+                className="bg-card border-border focus:border-primary transition-colors font-light"
                 required
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="phone" className="text-sm font-medium">
-              Phone *
+            <label htmlFor="phone" className="text-sm font-light">
+              {t("contact.phone")} *
             </label>
             <Input
               id="phone"
               type="tel"
-              placeholder="+1 (555) 000-0000"
+              placeholder={t("contact.phone")}
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="bg-card border-border focus:border-primary transition-colors"
+              className="bg-card border-border focus:border-primary transition-colors font-light"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="message" className="text-sm font-medium">
-              Message *
+            <label htmlFor="message" className="text-sm font-light">
+              {t("contact.message")} *
             </label>
             <Textarea
               id="message"
-              placeholder="Tell me about your event, date, venue, and any special requests..."
+              placeholder={t("contact.placeholder.message")}
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="bg-card border-border focus:border-primary transition-colors min-h-[150px]"
+              className="bg-card border-border focus:border-primary transition-colors min-h-[150px] font-light"
               required
             />
           </div>
@@ -155,10 +156,10 @@ const Contact = () => {
             type="submit"
             size="lg"
             disabled={isSubmitting}
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(0,255,136,0.4)]"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-soft hover:shadow-lg font-normal"
           >
-            <Send className="w-5 h-5 mr-2" />
-            {isSubmitting ? "Sending..." : "Send Message"}
+            <Send className="w-4 h-4 mr-2" />
+            {isSubmitting ? t("contact.sending") : t("contact.send")}
           </Button>
         </form>
       </div>

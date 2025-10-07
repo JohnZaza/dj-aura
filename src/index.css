@@ -8,42 +8,42 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
+    --background: 42 25% 96%;
+    --foreground: 30 15% 20%;
 
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 98%;
+    --card: 40 20% 98%;
+    --card-foreground: 30 15% 20%;
 
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 40 20% 98%;
+    --popover-foreground: 30 15% 20%;
 
-    --primary: 158 100% 50%;
-    --primary-foreground: 0 0% 0%;
+    --primary: 32 45% 50%;
+    --primary-foreground: 40 20% 98%;
 
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 38 30% 88%;
+    --secondary-foreground: 30 15% 20%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 38 30% 88%;
+    --muted-foreground: 30 10% 45%;
 
-    --accent: 158 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 32 45% 50%;
+    --accent-foreground: 40 20% 98%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 40 20% 98%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 158 100% 50%;
+    --border: 36 20% 85%;
+    --input: 36 20% 85%;
+    --ring: 32 45% 50%;
 
     --radius: 0.5rem;
 
-    /* Custom design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(158 100% 50% / 0.1), hsl(158 100% 40% / 0.05));
-    --gradient-hero: linear-gradient(180deg, hsl(0 0% 4%), hsl(0 0% 6%));
-    --shadow-glow: 0 0 40px hsl(158 100% 50% / 0.3);
-    --shadow-subtle: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Earth tone design tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(32 45% 50% / 0.1), hsl(28 40% 45% / 0.05));
+    --gradient-hero: linear-gradient(180deg, hsl(42 25% 96%), hsl(38 30% 92%));
+    --shadow-soft: 0 4px 20px hsl(30 15% 20% / 0.08);
+    --shadow-subtle: 0 2px 10px hsl(30 15% 20% / 0.05);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -54,5 +54,11 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
   }
 }
