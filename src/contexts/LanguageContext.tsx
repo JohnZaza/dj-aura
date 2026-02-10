@@ -180,8 +180,8 @@ interface LanguageContextType {
 const translations = {
   el: {
     // Hero
-    "hero.tagline": "Ανεβάστε την",
-    "hero.experience": "Εμπειρία σας",
+    "hero.tagline": "Κάντε κάθε εκδήλωσή σας",
+    "hero.experience": "Μοναδική",
     "hero.description": "Επαγγελματικές υπηρεσίες DJ για γάμους, ιδιωτικά πάρτι, βαπτίσεις και κάθε εορτασμό που αξίζει την τέλεια μουσική",
     "hero.bookEvent": "Κλείστε την Εκδήλωσή σας",
     "hero.learnMore": "Μάθετε Περισσότερα",
@@ -248,6 +248,8 @@ const translations = {
     "contact.success.title": "Το μήνυμα στάλθηκε!",
     "contact.success.description": "Ευχαριστώ που επικοινωνήσατε. Θα επικοινωνήσω σύντομα!",
     "contact.error.title": "Μη έγκυρη φόρμα",
+    "contact.gdpr": "Αποδέχομαι την επεξεργασία των δεδομένων μου (GDPR)",
+    "contact.gdpr.error": "Πρέπει να αποδεχτείτε τους όρους GDPR",
 
     // Footer
     "footer.tagline": "Δημιουργώντας αξέχαστες στιγμές μέσω της μουσικής",
@@ -261,8 +263,8 @@ const translations = {
 
   en: {
     // Hero
-    "hero.tagline": "Elevate Your",
-    "hero.experience": "Experience",
+    "hero.tagline": "Make Every Kind of Event",
+    "hero.experience": "Unique",
     "hero.description": "Professional DJ services for weddings, private parties, baptisms, and every celebration that deserves the perfect soundtrack",
     "hero.bookEvent": "Book Your Event",
     "hero.learnMore": "Learn More",
@@ -326,6 +328,8 @@ const translations = {
     "contact.success.title": "Message sent!",
     "contact.success.description": "Thanks for reaching out. I'll get back to you soon!",
     "contact.error.title": "Invalid form",
+    "contact.gdpr": "I consent to the processing of my data (GDPR)",
+    "contact.gdpr.error": "You must accept the GDPR terms",
 
     // Footer
     "footer.tagline": "Creating unforgettable moments through music",

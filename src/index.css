@@ -8,42 +8,41 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 42 25% 96%;
-    --foreground: 30 15% 20%;
+    --background: 20 20% 4%;
+    --foreground: 45 20% 90%;
 
-    --card: 40 20% 98%;
-    --card-foreground: 30 15% 20%;
+    --card: 20 20% 8%;
+    --card-foreground: 45 20% 90%;
 
-    --popover: 40 20% 98%;
-    --popover-foreground: 30 15% 20%;
+    --popover: 20 20% 8%;
+    --popover-foreground: 45 20% 90%;
 
-    --primary: 32 45% 50%;
-    --primary-foreground: 40 20% 98%;
+    --primary: 43 70% 50%;
+    /* Golden hue */
+    --primary-foreground: 20 20% 4%;
 
-    --secondary: 38 30% 88%;
-    --secondary-foreground: 30 15% 20%;
+    --secondary: 40 10% 15%;
+    --secondary-foreground: 45 20% 90%;
 
-    --muted: 38 30% 88%;
-    --muted-foreground: 30 10% 45%;
+    --muted: 40 10% 15%;
+    --muted-foreground: 45 10% 60%;
 
-    --accent: 32 45% 50%;
-    --accent-foreground: 40 20% 98%;
+    --accent: 43 70% 50%;
+    --accent-foreground: 20 20% 4%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 40 20% 98%;
+    --destructive-foreground: 45 20% 90%;
 
-    --border: 36 20% 85%;
-    --input: 36 20% 85%;
-    --ring: 32 45% 50%;
+    --border: 45 10% 20%;
+    --input: 45 10% 20%;
+    --ring: 43 70% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* Earth tone design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(32 45% 50% / 0.1), hsl(28 40% 45% / 0.05));
-    --gradient-hero: linear-gradient(180deg, hsl(42 25% 96%), hsl(38 30% 92%));
-    --shadow-soft: 0 4px 20px hsl(30 15% 20% / 0.08);
-    --shadow-subtle: 0 2px 10px hsl(30 15% 20% / 0.05);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Premium design tokens */
+    --gradient-gold: linear-gradient(135deg, hsl(43 70% 50%), hsl(35 60% 40%));
+    --shadow-premium: 0 10px 40px -10px hsl(0 0% 0% / 0.5);
+    --transition-premium: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   }
 }
 
@@ -54,11 +53,56 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Outfit', 'Inter', sans-serif;
     font-weight: 300;
+    -webkit-font-smoothing: antialiased;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 500;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tracking-tight;
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
+  .glass-premium {
+    @apply bg-card/60 backdrop-blur-xl border border-white/5;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .rotate-y-6 {
+    transform: rotateY(6deg);
+  }
+
+  .vinyl-record {
+    @apply relative rounded-full overflow-hidden border-[12px] border-[#111];
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    background: radial-gradient(circle, #333 0%, #111 100%);
+  }
+
+  .vinyl-grooves {
+    @apply absolute inset-0 rounded-full pointer-events-none opacity-40;
+    background: repeating-radial-gradient(circle, #000 0, #000 1px, transparent 1px, transparent 4px);
+  }
+
+  .vinyl-gloss {
+    @apply absolute inset-0 rounded-full pointer-events-none opacity-20;
+    background: linear-gradient(135deg, transparent 45%, rgba(255, 255, 255, 0.4) 50%, transparent 55%);
+  }
+
+  .vinyl-center {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-background rounded-full border-2 border-primary/20 z-20;
   }
 }

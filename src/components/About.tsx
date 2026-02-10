@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import djPhoto from "@/assets/dj-photo.jpg";
+import djIllustration from "@/assets/dj-illustration.jpg";
 
 const About = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,8 +20,8 @@ const About = () => {
   return (
     <section id="about" ref={sectionRef} className="py-24 px-6 relative overflow-hidden bg-background">
       {/* Soft background lights */}
-      <div className="absolute inset-0 pointer-events-none opacity-10">
-        {[...Array(20)].map((_, i) => (
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        {[...Array(30)].map((_, i) => (
           <div
             key={i}
             className="absolute bg-primary rounded-full animate-pulse"
@@ -41,14 +42,29 @@ const About = () => {
           className={`grid md:grid-cols-2 gap-16 items-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
         >
-          {/* Photo */}
-          <div className="relative flex justify-center">
-            <div className="absolute inset-0 bg-gradient-radial from-primary/20 to-transparent blur-3xl opacity-50" />
-            <img
-              src={djPhoto}
-              alt="DJ John Ziaziaris"
-              className="relative rounded-lg shadow-2xl w-96 h-auto object-cover border border-white/10"
-            />
+          {/* Photos/Illustration Container */}
+          <div className="relative flex justify-center items-center">
+            {/* Background decorative elements */}
+            <div className="absolute inset-x-0 inset-y-0 bg-primary/5 blur-3xl rounded-full opacity-30 pointer-events-none" />
+
+            {/* Vinyl Record Visual */}
+            <div className="relative group perspective-1000">
+              <div className="vinyl-record w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 transition-transform duration-700 group-hover:rotate-[30deg]">
+                <img
+                  src={djPhoto}
+                  alt="DJ John Ziaziaris"
+                  className="w-full h-full object-cover transition-all duration-700 grayscale group-hover:grayscale-0"
+                />
+                <div className="vinyl-grooves" />
+                <div className="vinyl-gloss" />
+                <div className="vinyl-center" />
+              </div>
+
+              {/* Floating label/accent */}
+              <div className="absolute -bottom-6 -right-6 bg-card/80 backdrop-blur-md border border-white/10 px-6 py-3 rounded-full shadow-premium transform -rotate-3 transition-transform group-hover:rotate-0">
+                <span className="text-xs uppercase tracking-[0.2em] text-primary font-medium">The Artist</span>
+              </div>
+            </div>
           </div>
 
           {/* Bio */}

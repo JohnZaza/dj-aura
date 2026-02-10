@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { z } from "zod";
+import djIllustration from "@/assets/dj-illustration.jpg";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
@@ -19,6 +20,9 @@ const contactSchema = z.object({
   people: z.string().optional(),
   extras: z.array(z.string()).optional(),
   message: z.string().optional(),
+  gdpr: z.boolean().refine((val) => val === true, {
+    message: "You must accept the GDPR terms",
+  }),
 });
 
 const Contact = () => {
@@ -38,6 +42,7 @@ const Contact = () => {
     people: "",
     extras: [] as string[],
     message: "",
+    gdpr: false,
   });
 
   useEffect(() => {
@@ -78,6 +83,7 @@ New Event Request from your DJ site:
 📍 Location: ${formData.location}
 👥 Guests (approx): ${formData.people || "Not specified"}
 ✨ Extras: ${formData.extras.length ? formData.extras.join(", ") : "None"}
+🔒 GDPR Accepted: Yes
 📝 Additional Info:
 ${formData.message || "No additional message."}
     `.trim();
@@ -92,7 +98,7 @@ ${formData.message || "No additional message."}
         if (Array.isArray(value)) {
           data.append(key, value.join(", "));
         } else {
-          data.append(key, value);
+          data.append(key, String(value));
         }
       });
 
@@ -119,6 +125,7 @@ ${formData.message || "No additional message."}
           people: "",
           extras: [],
           message: "",
+          gdpr: false,
         });
       } else {
         toast({
@@ -129,9 +136,10 @@ ${formData.message || "No additional message."}
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
         toast({
           title: t("contact.error.title"),
-          description: error.errors[0].message,
+          description: firstError.path[0] === "gdpr" ? t("contact.gdpr.error") : firstError.message,
           variant: "destructive",
         });
       } else {
@@ -146,229 +154,226 @@ ${formData.message || "No additional message."}
     }
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setIsSubmitting(true);
-  //   try {
-  //     contactSchema.parse(formData);
-
-  //     await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  //     toast({
-  //       title: t("contact.success.title"),
-  //       description: t("contact.success.description"),
-  //     });
-
-  //     setFormData({
-  //       name: "",
-  //       phone: "",
-  //       email: "",
-  //       eventType: "",
-  //       eventDate: "",
-  //       location: "",
-  //       people: "",
-  //       extras: [],
-  //       message: "",
-  //     });
-  //   } catch (error) {
-  //     if (error instanceof z.ZodError) {
-  //       toast({
-  //         title: t("contact.error.title"),
-  //         description: error.errors[0].message,
-  //         variant: "destructive",
-  //       });
-  //     }
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-
   return (
-    <section id="contact" ref={sectionRef} className="py-24 px-6">
-      <div className="container mx-auto max-w-4xl">
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-        >
-          <h2 className="text-4xl md:text-5xl font-light mb-4">
-            {t("contact.title")}{" "}
-            <span className="text-primary font-normal">{t("contact.unforgettable")}</span>
-          </h2>
-          <div className="w-16 h-px bg-primary mx-auto mb-6" />
-          <p className="text-base text-muted-foreground max-w-2xl mx-auto font-light">
-            {t("contact.description")}
-          </p>
-        </div>
-
-        <form
-          onSubmit={handleSubmit}
-          className={`space-y-6 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-          style={{ transitionDelay: "0.2s" }}
-        >
-          {/* Name & Phone */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-light">
-                {t("contact.name")} *
-              </label>
-              <Input
-                id="name"
-                type="text"
-                placeholder={t("contact.name")}
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="phone" className="text-sm font-light">
-                {t("contact.phone")} *
-              </label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder={t("contact.phone")}
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Email (optional) */}
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-light">
-              {t("contact.email")}
-            </label>
-            <Input
-              id="email"
-              type="email"
-              placeholder={t("contact.email")}
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            />
-          </div>
-
-          {/* Event Type + Date */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-light">{t("contact.eventType")} *</label>
-              <Select
-                onValueChange={(value) => setFormData({ ...formData, eventType: value })}
-                value={formData.eventType}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t("contact.eventType.placeholder")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="wedding">{t("contact.eventType.wedding")}</SelectItem>
-                  <SelectItem value="party">{t("contact.eventType.party")}</SelectItem>
-                  <SelectItem value="baptism">{t("contact.eventType.baptism")}</SelectItem>
-                  <SelectItem value="corporate">{t("contact.eventType.corporate")}</SelectItem>
-                  <SelectItem value="other">{t("contact.eventType.other")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-
-            <div className="space-y-2">
-              <label htmlFor="eventDate" className="text-sm font-light">
-                {t("contact.eventDate")} *
-              </label>
-              <Input
-                id="eventDate"
-                type="date"
-                value={formData.eventDate}
-                onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Location + People */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label htmlFor="location" className="text-sm font-light">
-                {t("contact.location")} *
-              </label>
-              <Input
-                id="location"
-                type="text"
-                placeholder={t("contact.location")}
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-light">
-                {t("contact.peopleApprox")}
-              </label>
-              <Select
-                onValueChange={(value) => setFormData({ ...formData, people: value })}
-                value={formData.people}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t("contact.selectPeople")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="<100">{t("contact.people.under100")}</SelectItem>
-                  <SelectItem value="100-200">{t("contact.people.100to200")}</SelectItem>
-                  <SelectItem value="200-300">{t("contact.people.200to300")}</SelectItem>
-                  <SelectItem value="300-400">{t("contact.people.300to400")}</SelectItem>
-                  <SelectItem value=">400">{t("contact.people.over400")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Extras */}
-          <div className="space-y-2">
-            <label className="text-sm font-light">{t("contact.extras")}:</label>
-            <div className="flex flex-wrap gap-6">
-              {["Lights", "Fog", "Fireworks"].map((item) => (
-                <div key={item} className="flex items-center gap-2">
-                  <Checkbox
-                    id={item}
-                    checked={formData.extras.includes(item)}
-                    onCheckedChange={() => handleCheckbox(item)}
-                  />
-                  <label htmlFor={item} className="text-sm font-light cursor-pointer">
-                    {t(`contact.extra.${item.toLowerCase()}`)}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Message */}
-          <div className="space-y-2">
-            <label htmlFor="message" className="text-sm font-light">
-              {t("contact.message")}
-            </label>
-            <Textarea
-              id="message"
-              placeholder={t("contact.placeholder.message")}
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="min-h-[150px]"
-            />
-          </div>
-
-          {/* Submit */}
-          <Button
-            type="submit"
-            size="lg"
-            disabled={isSubmitting}
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-soft hover:shadow-lg font-normal"
+    <section id="contact" ref={sectionRef} className="py-24 px-6 relative overflow-hidden">
+      <div className="container mx-auto">
+        <div className="grid lg:grid-cols-2 gap-16 items-start max-w-7xl mx-auto">
+          {/* Illustration Section (Left on Desktop, Top on Mobile) */}
+          <div
+            className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+              }`}
           >
-            <Send className="w-4 h-4 mr-2" />
-            {isSubmitting ? t("contact.sending") : t("contact.send")}
-          </Button>
-        </form>
+            <div className="relative group perspective-1000">
+              <div className="absolute -inset-10 bg-primary/10 blur-3xl rounded-full opacity-30 animate-pulse pointer-events-none" />
+              <img
+                src={djIllustration}
+                alt="DJ Illustration"
+                className="relative w-full max-w-md mx-auto rounded-3xl shadow-premium border border-white/10 transition-transform duration-700 hover:rotate-y-6 hover:scale-105"
+              />
+              <div className="mt-8 text-center lg:text-left space-y-4">
+                <h2 className="text-4xl md:text-5xl font-light">
+                  {t("contact.title")}{" "}
+                  <span className="text-primary font-normal">{t("contact.unforgettable")}</span>
+                </h2>
+                <div className="w-16 h-px bg-primary hidden lg:block" />
+                <p className="text-base text-muted-foreground font-light max-w-md">
+                  {t("contact.description")}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Form Section */}
+          <div
+            className={`bg-card/40 backdrop-blur-xl p-8 md:p-12 rounded-[2rem] border border-white/5 shadow-premium transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+              }`}
+            style={{ transitionDelay: "0.2s" }}
+          >
+
+            <form
+              onSubmit={handleSubmit}
+              className={`space-y-6 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                }`}
+              style={{ transitionDelay: "0.2s" }}
+            >
+              {/* Name & Phone */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-sm font-light">
+                    {t("contact.name")} *
+                  </label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder={t("contact.name")}
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="text-sm font-light">
+                    {t("contact.phone")} *
+                  </label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder={t("contact.phone")}
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Email (optional) */}
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-light">
+                  {t("contact.email")}
+                </label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder={t("contact.email")}
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </div>
+
+              {/* Event Type + Date */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-light">{t("contact.eventType")} *</label>
+                  <Select
+                    onValueChange={(value) => setFormData({ ...formData, eventType: value })}
+                    value={formData.eventType}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={t("contact.eventType.placeholder")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="wedding">{t("contact.eventType.wedding")}</SelectItem>
+                      <SelectItem value="party">{t("contact.eventType.party")}</SelectItem>
+                      <SelectItem value="baptism">{t("contact.eventType.baptism")}</SelectItem>
+                      <SelectItem value="corporate">{t("contact.eventType.corporate")}</SelectItem>
+                      <SelectItem value="other">{t("contact.eventType.other")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+
+                <div className="space-y-2">
+                  <label htmlFor="eventDate" className="text-sm font-light">
+                    {t("contact.eventDate")} *
+                  </label>
+                  <Input
+                    id="eventDate"
+                    type="date"
+                    value={formData.eventDate}
+                    onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Location + People */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="location" className="text-sm font-light">
+                    {t("contact.location")} *
+                  </label>
+                  <Input
+                    id="location"
+                    type="text"
+                    placeholder={t("contact.location")}
+                    value={formData.location}
+                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-light">
+                    {t("contact.peopleApprox")}
+                  </label>
+                  <Select
+                    onValueChange={(value) => setFormData({ ...formData, people: value })}
+                    value={formData.people}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={t("contact.selectPeople")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="<100">{t("contact.people.under100")}</SelectItem>
+                      <SelectItem value="100-200">{t("contact.people.100to200")}</SelectItem>
+                      <SelectItem value="200-300">{t("contact.people.200to300")}</SelectItem>
+                      <SelectItem value="300-400">{t("contact.people.300to400")}</SelectItem>
+                      <SelectItem value=">400">{t("contact.people.over400")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Extras */}
+              <div className="space-y-2">
+                <label className="text-sm font-light">{t("contact.extras")}:</label>
+                <div className="flex flex-wrap gap-6">
+                  {["Lights", "Fog", "Fireworks"].map((item) => (
+                    <div key={item} className="flex items-center gap-2">
+                      <Checkbox
+                        id={item}
+                        checked={formData.extras.includes(item)}
+                        onCheckedChange={() => handleCheckbox(item)}
+                      />
+                      <label htmlFor={item} className="text-sm font-light cursor-pointer">
+                        {t(`contact.extra.${item.toLowerCase()}`)}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Message */}
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-sm font-light">
+                  {t("contact.message")}
+                </label>
+                <Textarea
+                  id="message"
+                  placeholder={t("contact.placeholder.message")}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="min-h-[150px]"
+                />
+              </div>
+
+              {/* GDPR */}
+              <div className="flex items-center gap-3 py-2 border-t border-border/50">
+                <Checkbox
+                  id="gdpr"
+                  checked={formData.gdpr}
+                  onCheckedChange={(checked) => setFormData({ ...formData, gdpr: !!checked })}
+                  className="border-primary/50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                />
+                <label htmlFor="gdpr" className="text-xs md:text-sm font-light text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
+                  {t("contact.gdpr")} *
+                </label>
+              </div>
+
+              {/* Submit */}
+              <Button
+                type="submit"
+                size="lg"
+                disabled={isSubmitting}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-soft hover:shadow-lg font-normal"
+              >
+                <Send className="w-4 h-4 mr-2" />
+                {isSubmitting ? t("contact.sending") : t("contact.send")}
+              </Button>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   );

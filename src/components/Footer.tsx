@@ -1,6 +1,6 @@
 import { Instagram, Facebook, Youtube, Mail, Phone } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import logoDark from "@/assets/logo-dark.png";
+import logoNew from "@/assets/logo-new.png";
 
 const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/ziaziaris_giannis/?hl=el", label: "Instagram" },
@@ -17,7 +17,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-12 mb-8">
           {/* Logo & Tagline */}
           <div>
-            <img src={logoDark} alt="DJ John Ziaziaris" className="h-14 mb-4" />
+            <img src={logoNew} alt="DJ John Ziaziaris" className="h-14 mb-4 brightness-0 invert" />
             <p className="text-muted-foreground font-light text-sm">
               {t("footer.tagline")}
             </p>

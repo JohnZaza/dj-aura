@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Music, Volume2, VolumeX, Instagram, Facebook, Youtube, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import logoDark from "@/assets/logo-dark.png";
+import logoNew from "@/assets/logo-new.png";
 
 interface HeroProps {
   isMuted: boolean;
@@ -51,19 +51,22 @@ const Hero = ({ isMuted, onToggleMute }: HeroProps) => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+      {/* Dynamic Background Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-background z-0" />
+
       {/* Floating ambient dots */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        {[...Array(25)].map((_, i) => (
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        {[...Array(30)].map((_, i) => (
           <div
             key={i}
             className="absolute bg-primary rounded-full animate-pulse"
             style={{
-              width: "2px",
-              height: "2px",
+              width: Math.random() * 3 + 1 + "px",
+              height: Math.random() * 3 + 1 + "px",
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 5}s`,
-              animationDuration: "4s",
+              animationDuration: `${3 + Math.random() * 4}s`,
             }}
           />
         ))}
@@ -81,9 +84,9 @@ const Hero = ({ isMuted, onToggleMute }: HeroProps) => {
             <div className="absolute -inset-10 bg-gradient-to-r from-primary/30 via-transparent to-primary/30 blur-3xl opacity-60 animate-[pulse_6s_infinite]" />
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-primary/10 to-transparent blur-lg animate-[shine_5s_linear_infinite]" />
             <img
-              src={logoDark}
+              src={logoNew}
               alt="DJ John Ziaziaris"
-              className="relative h-56 md:h-72 lg:h-80 object-contain transition-transform duration-700 ease-out drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] group-hover:scale-110 group-hover:drop-shadow-[0_0_50px_rgba(255,255,255,0.3)]"
+              className="relative h-64 md:h-80 lg:h-96 object-contain transition-all duration-700 ease-out brightness-0 invert drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] group-hover:scale-110 group-hover:drop-shadow-[0_0_60px_rgba(255,255,255,0.4)]"
             />
           </div>
         </div>
