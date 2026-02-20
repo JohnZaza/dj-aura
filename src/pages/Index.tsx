@@ -3,6 +3,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Services from "@/components/Services";
+import Gallery from "@/components/Gallery";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import AudioPlayer from "@/components/AudioPlayer";
@@ -19,6 +20,7 @@ const Index = () => {
         <Hero isMuted={isMuted} onToggleMute={() => setIsMuted(!isMuted)} />
         <About />
         <Services />
+        <Gallery />
         <Contact />
         <Footer />
       </div>

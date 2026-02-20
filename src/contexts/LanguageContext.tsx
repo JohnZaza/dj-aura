@@ -248,8 +248,9 @@ const translations = {
     "contact.success.title": "Το μήνυμα στάλθηκε!",
     "contact.success.description": "Ευχαριστώ που επικοινωνήσατε. Θα επικοινωνήσω σύντομα!",
     "contact.error.title": "Μη έγκυρη φόρμα",
-    "contact.gdpr": "Αποδέχομαι την επεξεργασία των δεδομένων μου (GDPR)",
     "contact.gdpr.error": "Πρέπει να αποδεχτείτε τους όρους GDPR",
+    "gallery.title": "Γκαλερί",
+    "gallery.subtitle": "Στιγμές από τις εκδηλώσεις μας",
 
     // Footer
     "footer.tagline": "Δημιουργώντας αξέχαστες στιγμές μέσω της μουσικής",
@@ -328,8 +329,9 @@ const translations = {
     "contact.success.title": "Message sent!",
     "contact.success.description": "Thanks for reaching out. I'll get back to you soon!",
     "contact.error.title": "Invalid form",
-    "contact.gdpr": "I consent to the processing of my data (GDPR)",
     "contact.gdpr.error": "You must accept the GDPR terms",
+    "gallery.title": "Gallery",
+    "gallery.subtitle": "Moments from our events",
 
     // Footer
     "footer.tagline": "Creating unforgettable moments through music",

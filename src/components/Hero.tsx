@@ -120,6 +120,15 @@ const Hero = ({ isMuted, onToggleMute }: HeroProps) => {
           >
             {t("hero.learnMore")}
           </Button>
+
+          <Button
+            size="lg"
+            variant="outline"
+            className="border-primary/30 text-foreground hover:bg-primary/10 px-10 py-6 text-base font-normal hover:scale-105 transition-all"
+            onClick={() => scrollToSection("gallery")}
+          >
+            {t("gallery.title")}
+          </Button>
         </div>
 
         {/* MUSIC CONTROL */}
@@ -169,7 +178,6 @@ const Hero = ({ isMuted, onToggleMute }: HeroProps) => {
             <span>+30 697 364 3262</span>
           </a>
         </div>
-
       </div>
 
       {/* Scroll Indicator */}
