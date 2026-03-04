@@ -1,37 +1,48 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import eventPlaceholder from "@/assets/event-placeholder.jpg";
+import gal1 from "@/assets/gal1.jpg";
+import gal2 from "@/assets/gal2.jpg";
+import gal3 from "@/assets/gal3.jpg";
+import gal4 from "@/assets/gal4.jpg";
+import gal5 from "@/assets/gal5.MOV";
+import gal6 from "@/assets/gal6.MOV";
 
 const Gallery = () => {
     const { t } = useLanguage();
 
-    const images = [
+    const media = [
         {
-            src: eventPlaceholder,
+            src: gal1,
+            type: "image",
             alt: "Event 1",
             title: "Wedding Celebration",
         },
         {
-            src: eventPlaceholder,
+            src: gal5,
+            type: "video",
             alt: "Event 2",
             title: "Private Party",
         },
         {
-            src: eventPlaceholder,
+            src: gal2,
+            type: "image",
             alt: "Event 3",
             title: "Baptism Event",
         },
         {
-            src: eventPlaceholder,
+            src: gal6,
+            type: "video",
             alt: "Event 4",
             title: "Corporate Event",
         },
         {
-            src: eventPlaceholder,
+            src: gal3,
+            type: "image",
             alt: "Event 5",
             title: "Club Night",
         },
         {
-            src: eventPlaceholder,
+            src: gal4,
+            type: "image",
             alt: "Event 6",
             title: "Vip Event",
         },
@@ -51,19 +62,30 @@ const Gallery = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {images.map((image, index) => (
+                    {media.map((item, index) => (
                         <div
                             key={index}
                             className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
                         >
-                            <img
-                                src={image.src}
-                                alt={image.alt}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
+                            {item.type === "video" ? (
+                                <video
+                                    src={item.src}
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                            ) : (
+                                <img
+                                    src={item.src}
+                                    alt={item.alt}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                            )}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
                                 <h3 className="text-white text-xl font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                    {image.title}
+                                    {item.title}
                                 </h3>
                             </div>
                         </div>
